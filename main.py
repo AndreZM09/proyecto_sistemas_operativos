@@ -1,6 +1,4 @@
 from funciones import *
-import random
-
 
 while True:
     procesos = int(input('Ingrese la cantidad de procesos que desea realizar: '))
