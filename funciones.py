@@ -37,7 +37,6 @@ def terminar(e):
     terminar_proceso = True
     print("\n\n=======Se pulsó la tecla 'E'=======")
 
-
 def interrupcion(i):
     global bloquear_proceso
     bloquear_proceso = True
@@ -113,7 +112,7 @@ def crear_proceso(keys_validas, cont):
             a, b = 5, 5
             break
 
-    tiempo = random.randint(6,16)
+    tiempo = random.randint(5,16)
 
     id=cont
 
@@ -134,10 +133,12 @@ def funcion_procesos(procesos_en_memoria, procesos_pendientes, contador_proesos,
     proceso_fue_interrumpido = False
     quantum_copia=quantum
     quantum_copia+=1
+    contador=0
 
     while True:
         contador = 0
         decrementar_tiempo = True
+
         print("\033[H\033[J", end="")
 
         print('Procesos pendientes:', len(procesos_pendientes),'\tValor del quantum:',quantum,'\n')
@@ -227,11 +228,10 @@ def funcion_procesos(procesos_en_memoria, procesos_pendientes, contador_proesos,
                 if proceso_actual['tiempo_restante'] == 0 and procesos_en_memoria:
                     procesos_en_memoria.pop(0)
                     break
-                elif contador==quantum_copia:
+                elif contador==quantum:
                     procesos_en_memoria.pop(0)
                     procesos_en_memoria.append(proceso_actual)
-                    proceso_actual['tt'] -= 1
-                    proceso_actual['tiempo_restante'] += 1
+                    time.sleep(1)
                     break
 
             if bloquear_proceso:
@@ -279,9 +279,6 @@ def funcion_procesos(procesos_en_memoria, procesos_pendientes, contador_proesos,
                 procesos_bloqueados.pop(0)
                 if len(procesos_en_memoria)==1 and len(procesos_bloqueados)==0:
                     proceso_actual = procesos_en_memoria[0]
-                if proceso_actual:
-                    proceso_actual['tt']=proceso_actual['tt']-1
-                    proceso_actual['tiempo_restante']=proceso_actual['tiempo_restante']+1
                 if procesos_bloqueados:
                     proceso_actual = procesos_bloqueados[0]
                 decrementar_tiempo = False
