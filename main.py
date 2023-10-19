@@ -35,6 +35,6 @@ print(lista_procesos,'\n')
 print(procesos_pendientes,'\n')
 print(procesos_en_memoria)
 
-funcion_procesos(procesos_en_memoria,procesos_pendientes, cont, keys_validas, quantum)
+funcion_procesos(procesos_en_memoria,procesos_pendientes, cont, keys_validas, quantum, lista_procesos)
 
 input('Presiona Enter para Finalizar...')

@@ -119,7 +119,7 @@ def crear_proceso(keys_validas, cont):
     info = {"operacion": operacion, "tiempo_maximo": tiempo, "num1": a, "num2": b, "id": id, "tiempo_restante":tiempo, "bloqueado":False, "tt":0, "tiempo_de_llegada":0, "tiempo_de_finalizacion":0, "tiempo_de_espera":0, "tiempo_de_servicio":0, "tiempo_de_retorno":0, "tiempo_de_respuesta":0}
     return info
 
-def funcion_procesos(procesos_en_memoria, procesos_pendientes, contador_proesos, keys_validas, quantum):
+def funcion_procesos(procesos_en_memoria, procesos_pendientes, contador_proesos, keys_validas, quantum, lista_procesos):
     global contador_global
     global pausado
     global terminar_proceso
@@ -133,7 +133,8 @@ def funcion_procesos(procesos_en_memoria, procesos_pendientes, contador_proesos,
     proceso_fue_interrumpido = False
     quantum_copia=quantum
     quantum_copia+=1
-    contador=0
+    contador_quantum=0
+    
 
     while True:
         contador = 0
@@ -184,7 +185,7 @@ def funcion_procesos(procesos_en_memoria, procesos_pendientes, contador_proesos,
                 proceso_actual = procesos_en_memoria[0]
                 proceso_actual['tt']-=1
                 proceso_actual['tiempo_restante']+=1
-                if proceso_actual['tiempo_de_respuesta'] == 0 and not proceso_actual['bloqueado']:
+                if proceso_actual['tiempo_de_respuesta'] == 0 and not (procesos_en_memoria[0]==lista_procesos[0]):
                     proceso_actual['tiempo_de_respuesta']=contador_global-proceso_actual['tiempo_de_llegada']
                 print ('\n----Proceso en ejecución----                                             ----Procesos bloqueados----')
                 print('operación: ', proceso_actual['operacion'])
@@ -195,7 +196,6 @@ def funcion_procesos(procesos_en_memoria, procesos_pendientes, contador_proesos,
             print ('\n                                                                    ----Procesos bloqueados----')
 
         while True:
-
             if len(procesos_en_memoria)==0 and len(procesos_bloqueados)==0:
                 break
 
@@ -228,7 +228,8 @@ def funcion_procesos(procesos_en_memoria, procesos_pendientes, contador_proesos,
                 if proceso_actual['tiempo_restante'] == 0 and procesos_en_memoria:
                     procesos_en_memoria.pop(0)
                     break
-                elif contador==quantum:
+                if contador_quantum==quantum:
+                    contador_quantum=0
                     procesos_en_memoria.pop(0)
                     procesos_en_memoria.append(proceso_actual)
                     time.sleep(1)
@@ -256,6 +257,8 @@ def funcion_procesos(procesos_en_memoria, procesos_pendientes, contador_proesos,
             if nuevo_proceso:
                 nuevo_proceso = False
                 contador_proesos+=1
+                proceso_actual['tt']=proceso_actual['tt']+1
+                proceso_actual['tiempo_restante']=proceso_actual['tiempo_restante']-1
                 if len(procesos_bloqueados) + len(procesos_en_memoria) <5:
                     procesos_en_memoria.append(crear_proceso(keys_validas, contador_proesos))
                 else:
@@ -288,6 +291,7 @@ def funcion_procesos(procesos_en_memoria, procesos_pendientes, contador_proesos,
                 proceso_bloqueado['tiempo_bloqueado'] -= 1
 
             time.sleep(1)
+            contador_quantum += 1
             contador += 1
 
         contador_global += contador
