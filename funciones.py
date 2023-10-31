@@ -208,10 +208,16 @@ def funcion_procesos(procesos_en_memoria, procesos_pendientes, contador_proesos,
                 for proceso_nuevo in copia_procesos_pendientes:
                     print(f"ID: {proceso_nuevo['id']}, Estado: Nuevo")
                 for proceso_en_memoria in procesos_en_memoria[1:]:
+                    proceso_en_memoria['tiempo_de_espera']=(contador_global-proceso_en_memoria['tiempo_de_llegada'])-proceso_en_memoria['tiempo_de_servicio']
+                    proceso_en_memoria['tiempo_de_servicio']=proceso_en_memoria['tt']
                     print(f"ID: {proceso_en_memoria['id']}, Estado: Listo, Operacion: {proceso_en_memoria['operacion']}, Num1: {proceso_en_memoria['num1']}, num2: {proceso_en_memoria['num2']}, tiempo de llegada: {proceso_en_memoria['tiempo_de_llegada']}, tiempo de espera: {proceso_en_memoria['tiempo_de_espera']}, tiempo de servicio: {proceso_en_memoria['tiempo_de_servicio']}, tiempo restante en CPU: {proceso_en_memoria['tiempo_restante']}, tiempo de respuesta: {proceso_en_memoria['tiempo_de_respuesta']}")
                 if proceso_actual:
+                    proceso_actual['tiempo_de_espera']=(contador_global-proceso_actual['tiempo_de_llegada'])-proceso_actual['tiempo_de_servicio']
+                    proceso_actual['tiempo_de_servicio']=proceso_actual['tt']
                     print(f"ID: {proceso_actual['id']}, Estado: En ejecución, Operacion: {proceso_actual['operacion']}, Num1: {proceso_actual['num1']}, num2: {proceso_actual['num2']}, tiempo de llegada: {proceso_actual['tiempo_de_llegada']}, tiempo de espera: {proceso_actual['tiempo_de_espera']}, tiempo de servicio: {proceso_actual['tiempo_de_servicio']}, tiempo restante en CPU: {proceso_actual['tiempo_restante']}, tiempo de respuesta: {proceso_actual['tiempo_de_respuesta']}")
                 for proceso_bloqueado in procesos_bloqueados:
+                    proceso_bloqueado['tiempo_de_espera']=(contador_global-proceso_bloqueado['tiempo_de_llegada'])-proceso_bloqueado['tiempo_de_servicio']
+                    proceso_bloqueado['tiempo_de_servicio']=proceso_bloqueado['tt']
                     proceso_bloqueado['tiempo_bloqueado']+=1
                     print(f"ID: {proceso_bloqueado['id']}, Estado: Bloqueado, Tiempo bloqueado: {proceso_bloqueado['tiempo_bloqueado']}, Operacion: {proceso_bloqueado['operacion']}, Num1: {proceso_bloqueado['num1']}, num2: {proceso_bloqueado['num2']}, tiempo de llegada: {proceso_bloqueado['tiempo_de_llegada']}, , tiempo de espera: {proceso_bloqueado['tiempo_de_espera']}, tiempo de servicio: {proceso_bloqueado['tiempo_de_servicio']}, tiempo restante en CPU: {proceso_bloqueado['tiempo_restante']}, tiempo de respuesta: {proceso_bloqueado['tiempo_de_respuesta']}")
                 for proceso_terminado in procesos_terminados:
