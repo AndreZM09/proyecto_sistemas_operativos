@@ -213,6 +213,8 @@ def funcion_procesos(procesos_en_memoria, procesos_pendientes, contador_proesos,
                     proceso_en_memoria['tiempo_de_servicio']=proceso_en_memoria['tt']
                     if proceso_en_memoria['tiempo_de_servicio']==-1:
                         proceso_en_memoria['tiempo_de_servicio']=0
+                    if proceso_en_memoria['id'] != 1 and proceso_en_memoria['tiempo_de_respuesta']==0:
+                        proceso_en_memoria['tiempo_de_respuesta']='NA'
                     proceso_en_memoria['tiempo_de_espera']=(contador_global-proceso_en_memoria['tiempo_de_llegada'])-proceso_en_memoria['tiempo_de_servicio']
                     print(f"ID: {proceso_en_memoria['id']}, Estado: Listo, Operacion: {proceso_en_memoria['operacion']}, Num1: {proceso_en_memoria['num1']}, num2: {proceso_en_memoria['num2']}, tiempo de llegada: {proceso_en_memoria['tiempo_de_llegada']}, tiempo de espera: {proceso_en_memoria['tiempo_de_espera']}, tiempo de servicio: {proceso_en_memoria['tiempo_de_servicio']}, tiempo restante en CPU: {proceso_en_memoria['tiempo_restante']}, tiempo de respuesta: {proceso_en_memoria['tiempo_de_respuesta']}")
                 if proceso_actual:
